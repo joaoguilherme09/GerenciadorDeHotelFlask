@@ -52,6 +52,7 @@ Certifique-se de que o MySQL Workbench está conectado ao servidor local:
 
 👤 Usuário: root
 
+
 Agora, abra o XAMPP e ligue os dois serviços principais:
 
 Serviço	Status
@@ -62,13 +63,13 @@ Esses dois precisam estar ativos para que o sistema funcione corretamente ⚡
 
 Com o servidor rodando, volte ao terminal e, dentro da pasta principal do projeto, execute o comando abaixo:
 
+
 python app.py
 
 
 Após isso, o terminal mostrará uma mensagem parecida com esta:
 
  * Running on http://127.0.0.1:5000
-
 
 Clique no link 🌐 ou copie e cole no navegador — e pronto!
 Seu sistema estará funcionando perfeitamente 🚀🔥
