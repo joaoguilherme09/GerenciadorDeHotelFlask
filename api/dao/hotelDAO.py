@@ -52,7 +52,12 @@ class HotelDAO:
                 cursor.execute(SQL, params)
                 conn.commit()
                 affected = cursor.rowcount
-                
+
+                # Faz o próximo ID continuar do maior ID existente + 1 (ou do 1, se a tabela ficar vazia)
+                if affected > 0:
+                    cursor.execute("ALTER TABLE hotel AUTO_INCREMENT = 1;")
+                    cursor.execute("ALTER TABLE reserva AUTO_INCREMENT = 1;")
+
                 print("✅ HotelDAO.delete()")
                 return affected > 0
             finally:

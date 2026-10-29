@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS casa_branca.hotel (
   capacidade INT NOT NULL,
   PRIMARY KEY (idHotel))
 ENGINE = InnoDB
-AUTO_INCREMENT = 24
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
@@ -43,7 +42,6 @@ CREATE TABLE IF NOT EXISTS casa_branca.hospede (
   requisicao VARCHAR(1000) NULL DEFAULT NULL,
   PRIMARY KEY (idHospede))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
@@ -69,7 +67,6 @@ CREATE TABLE IF NOT EXISTS casa_branca.reserva (
     REFERENCES casa_branca.hotel (idHotel)
     ON DELETE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
