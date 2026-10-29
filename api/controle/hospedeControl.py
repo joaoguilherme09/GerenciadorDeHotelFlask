@@ -62,6 +62,13 @@ class HospedeControl:
         idHospede = request.view_args.get("idHospede")
 
         Hospede = self.__Hospede_service.findById(idHospede)
+        if not Hospede:
+            return jsonify({
+                "success": False,
+                "message": f"Cliente com ID {idHospede} não encontrado",
+                "data": None
+            }), 404
+
         obj_resposta = {
             "success": True,
             "message": "Executado com sucesso",
@@ -80,6 +87,12 @@ class HospedeControl:
         # Pega os dados do Hospede no corpo da requisição
         json_Hospede = request.json.get("Hospede")
         print(json_Hospede)
+
+        if not self.__Hospede_service.findById(idHospede):
+            return jsonify({
+                "success": False,
+                "message": f"Cliente com ID {idHospede} não encontrado"
+            }), 404
 
         resposta = self.__Hospede_service.updateHospede(idHospede, json_Hospede)
         return jsonify({

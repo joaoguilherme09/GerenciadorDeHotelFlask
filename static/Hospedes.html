@@ -584,16 +584,11 @@
             const response = await api.getById('/api/v1/hospedes', id);
             console.log("📦 BUSCAR POR ID - Resposta COMPLETA:", response);
             
-            let hospede = null;
+            const hospede = response.success ? response.data?.Hospedes : null;
             
-            if (response.data?.Hospedes) {
-                hospede = response.data.Hospedes;
-            } else if (response.data) {
-                hospede = response.data;
-            }
-            
-            if (!hospede) {
-                throw new Error("Cliente não encontrado na resposta");
+            if (!hospede || !hospede.idHospede) {
+                document.getElementById('resultadoBuscarPorId').style.display = 'none';
+                throw new Error(`Cliente com ID ${id} não encontrado`);
             }
             
             const resultadoDiv = document.getElementById('resultadoBuscarPorId');

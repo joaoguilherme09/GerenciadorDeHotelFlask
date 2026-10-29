@@ -59,6 +59,13 @@ class HotelControl:
         idHotel = request.view_args.get("idHotel")
 
         Hotel = self.__Hotel_service.findById(idHotel)
+        if not Hotel:
+            return jsonify({
+                "success": False,
+                "message": f"Hotel com ID {idHotel} não encontrado",
+                "data": None
+            }), 404
+
         obj_resposta = {
             "success": True,
             "message": "Executado com sucesso",
@@ -77,6 +84,12 @@ class HotelControl:
         # Pega os dados do Hotel no corpo da requisição
         json_Hotel = request.json.get("Hotel")
         print(json_Hotel)
+
+        if not self.__Hotel_service.findById(idHotel):
+            return jsonify({
+                "success": False,
+                "message": f"Hotel com ID {idHotel} não encontrado"
+            }), 404
 
         resposta = self.__Hotel_service.updateHotel(idHotel, json_Hotel)
         return jsonify({

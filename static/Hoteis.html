@@ -518,8 +518,8 @@
             console.log("📦 BUSCAR POR ID - Resposta:", response);
             
             // ✅ CORREÇÃO: Verificar a estrutura correta da resposta
-            if (response.success && response.data) {
-                const hotel = response.data.Hoteis || response.data.hotel || response.data;
+            const hotel = response.success ? response.data?.Hoteis : null;
+            if (hotel && hotel.idHotel) {
                 
                 const detalhes = document.getElementById('detalhesHotel');
                 
@@ -538,7 +538,8 @@
                 document.getElementById('resultadoBuscarPorId').style.display = 'block';
                 mostrarMensagem("Hotel encontrado com sucesso!", "success", "mensagemBuscarPorId");
             } else {
-                throw new Error(response.error?.message || "Hotel não encontrado");
+                document.getElementById('resultadoBuscarPorId').style.display = 'none';
+                throw new Error(`Hotel com ID ${id} não encontrado`);
             }
         } catch (error) {
             console.error("❌ BUSCAR POR ID - Erro:", error);
