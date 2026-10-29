@@ -2,6 +2,15 @@
 from api.modelo.reserva import Reserva
 from api.database.database import DatabaseConfig
 
+def _datas_para_texto(reservas: list[dict]) -> list[dict]:
+    """Converte inicio/fim para texto "AAAA-MM-DD" (senão o Flask manda no formato "Thu, 05 Nov 2026 00:00:00 GMT")."""
+    for r in reservas:
+        for campo in ("inicio", "fim"):
+            if r.get(campo) is not None and hasattr(r[campo], "strftime"):
+                r[campo] = r[campo].strftime("%Y-%m-%d")
+    return reservas
+
+
 """
 Representa o DAO (Data Access Object) de Reserva.
 
@@ -91,7 +100,7 @@ class ReservaDAO:
             cursor = conn.cursor(dictionary=True)
             try:
                 cursor.execute(SQL)
-                resultados = cursor.fetchall()
+                resultados = _datas_para_texto(cursor.fetchall())
                 
                 print(f"✅ ReservaDAO.findAll() -> {len(resultados)} registros encontrados")
                 return resultados
@@ -118,7 +127,7 @@ class ReservaDAO:
             cursor = conn.cursor(dictionary=True)
             try:
                 cursor.execute(SQL, params)
-                resultados = cursor.fetchall()
+                resultados = _datas_para_texto(cursor.fetchall())
                 
                 print("✅ ReservaDAO.findByField()")
                 return resultados
