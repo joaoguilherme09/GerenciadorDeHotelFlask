@@ -427,38 +427,39 @@
         /**
          * ✅ FUNÇÃO NOVA: Formata data para exibição
          */
+        /**
+         * Converte qualquer data vinda da API para "AAAA-MM-DD".
+         * Aceita "2026-11-05", "2026-11-05T00:00:00", "2026-11-05 00:00:00"
+         * e o formato padrão do Flask "Thu, 05 Nov 2026 00:00:00 GMT".
+         */
+        function paraISO(dataString) {
+            if (!dataString) return '';
+            const texto = String(dataString);
+
+            const iso = texto.match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (iso) return `${iso[1]}-${iso[2]}-${iso[3]}`;
+
+            // Outros formatos: usa as partes em UTC para não mudar o dia por fuso horário
+            const data = new Date(texto);
+            if (isNaN(data)) return '';
+            const mes = String(data.getUTCMonth() + 1).padStart(2, '0');
+            const dia = String(data.getUTCDate()).padStart(2, '0');
+            return `${data.getUTCFullYear()}-${mes}-${dia}`;
+        }
+
         function formatarData(dataString) {
             if (!dataString) return 'N/A';
-            
-            try {
-                // Remove timestamp se existir (2025-01-15T00:00:00 → 2025-01-15)
-                const dataLimpa = dataString.split('T')[0];
-                const data = new Date(dataLimpa + 'T00:00:00');
-                
-                return data.toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                });
-            } catch (error) {
-                console.error("Erro ao formatar data:", error);
-                return dataString;
-            }
+            const iso = paraISO(dataString);
+            if (!iso) return String(dataString);
+            const [ano, mes, dia] = iso.split('-');
+            return `${dia}/${mes}/${ano}`;
         }
 
         /**
          * ✅ FUNÇÃO NOVA: Formata data para input[type=date]
          */
         function formatarDataParaInput(dataString) {
-            if (!dataString) return '';
-            
-            try {
-                // Remove timestamp e retorna YYYY-MM-DD
-                return dataString.split('T')[0];
-            } catch (error) {
-                console.error("Erro ao formatar data para input:", error);
-                return '';
-            }
+            return paraISO(dataString);
         }
 
         // ==================== OPERAÇÕES CRUD ====================
